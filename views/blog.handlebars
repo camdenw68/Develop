@@ -1,0 +1,14 @@
+<div class="text-center">
+  <h2>{{blog.title}}</h2>
+  <p>{{blog.content}}</p>
+  <p>Created by {{blog.user.name}} on {{blog.date_created}}</p>
+  <form id="comment-form">
+    <input id="submit-btn"type="text">
+        <input id="blog_id"type="hidden" value="{{blog.id}}">
+    <button type="submit">Comment</button>
+  </form>
+  {{#each blog.comments as |comment| }}
+<p>{{comment.comment}}</p>
+  {{/each}}
+</div>
+<script src="/js/comment.js"></script>
