@@ -1,22 +1,23 @@
-const Sequelize = require('sequelize');
-require('dotenv').config();
-const port = process.env.PORT || 3001
+// Assuming you are using Sequelize to connect to the database
 
-let sequelize;
+const { Sequelize } = require('sequelize');
 
-if (process.env.JAWSDB_URL) {
-  sequelize = new Sequelize(process.env.JAWSDB_URL);
-} else {
-  sequelize = new Sequelize(
-    process.env.DB_NAME,
-    process.env.DB_USER,
-    process.env.DB_PASSWORD,
-    {
-      host: 'localhost',
-      dialect: 'mysql',
-      port: 3306
+// Parse the DATABASE_URL to get connection information
+const sequelize = new Sequelize(process.env.DATABASE_URL, {
+  dialect: 'mysql',
+  protocol: 'mysql',
+  dialectOptions: {
+    ssl: {
+      rejectUnauthorized: false // For self-signed certificates
     }
-  );
-}
+  }
+});
 
-module.exports = sequelize;
+// Test the connection
+sequelize.authenticate()
+  .then(() => {
+    console.log('Connection has been established successfully.');
+  })
+  .catch(err => {
+    console.error('Unable to connect to the database:', err);
+  });
